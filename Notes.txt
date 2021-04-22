@@ -1,0 +1,58 @@
+Session 1 :
+	speak is a function present in pyttsx3 module
+	import pyttsx3
+	pyttsx3.speak("hii")
+
+Session 2:
+	how to read all data in RAM??
+	the code when loaded on the RAM it is known as process not program.
+	REPL -> Read Evaluate Print Loop.
+	y = [1,2,3,4,5]
+	y[3] can also be y.__getitem__(3)
+	y[:4] from start to 4
+	y[3:] from 3 to last
+	y[3:251245124] from 3 to last.
+	import numpy as np
+	ar = np.array(we have to pass a list as argument)
+	ar = np.array([1,2,3]).
+	import os 
+	os.system("[command]") like -> os.system("cls")
+
+Session 3:
+	how to whatsapp,sms,email using Python?
+	command for opening jupyter -->  jupyter notebook
+	shift+Enter to execute present cell
+	esc+d+d will delete the cell
+	press tab two times for methods autocompletion.
+	print(r'akash \t akashnani') --->  prints (akash \t akashnani)
+
+Session 4:
+	alt+enter to run and create new cell in jupyter.
+
+Session 5:
+	We have to run WebServer in ubuntu with command systemctl start apache2
+	we have to place our html files in /var/www/html
+	we can access html files in this folder by http://[ip-address]/[html-file]
+	we have to place our codefiles like python files in /lib/cgi-bin/
+	But we have change the url while running the python files by web
+	http://[ip-address]/cgi-bin/pythonFile
+	we have to make the python files as executable bcoz we are not running the code
+	the server is running.. ---> chmod +x [python-file]
+	we have to say which interpreter to use to run the code --> #!python3 --> #![intepreter] (#! is hashBang)
+	But we have to give the interpreter location(url) where it is present in the system  like ---> #!/usr/bin/python3
+	we have to tell our python code to print our output in browser by telling the content type in response,
+	content-type : text/html ---> means we are sending Text and Browser have to display in html in format
+	
+	Conclusion:
+		step 1: we have to place our code in /lib/cgi-bin/
+		step 2: we have make our file as executable
+		step 3: we have to place hashbang at top of the file
+		step 4: we have to tell content-type as text/html and print a new line to seperate header and body
+
+	os module will not return output it will print automatically
+	To get output to us without printing we can use the function getoutput present in subprocess module
+	import subprocess
+	subprocess.getoutput("date")
+	API means we are giving our python program as interface to client so it is known as Application Program Interface
+	
+Session 6:

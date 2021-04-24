@@ -56,3 +56,52 @@ Session 5:
 	API means we are giving our python program as interface to client so it is known as Application Program Interface
 	
 Session 6:
+	free -m  --->> command used to know the amount of ram free
+	The Function or method which is used to take input from the client is FieldStorage() from module cgi
+	import cgi
+	data = cgi.FiledStorage()
+	we can fetch the values of data send through the method getvalue("[dataname]")
+	name = data.getvalue("name")
+	password = data.getvalue("password")
+	radio button can store only one value at a time bcoz it is just a variable
+	checkbox can store more than one value at a time bcoz it is a list
+Session 7:
+	if we send location : [url] in the header part of response then our page will redirect to specified url
+	curl http:www.google.com --->  command line interface for viewing website
+	curl -I http:www.google.com ---> will print header of that response
+	import subprocess as sp
+	sp.getstatusoutput("cmd")  ---> will give output as tuple of status of the command and output of the command sp.getstatusoutput("ipconfig")   ----> output is (status(0|1),output)
+	how to display gui programs of server in client browser?
+
+Session 8:
+	we have a module called webbrowser
+	import webbrowser	 as wb
+	wb.open([url])
+	pyaudio is library we used to connect our python code with mic of our system
+	pip install pyaudio will not works use "conda install pyaudio"
+	"speechrecognition" is the library which can interact with the api of google voice recoginition api.
+	first we have to import "speech_recognition" module for recognising our speech
+	import speech_recognition as sr
+	"with" keyword is used for connecting and closing the connection
+	for adding microphone usage to our program we have to first initialize the class called Recognizer which is present in speech_recognition
+	r = sr.Recognizer()
+	now we have to open mike for that we have Microphone function speech_recognition module sr.Microphone() we use that source
+	with sr.Microphone() as source:
+	now we have to listen to the voice coming from the source for that we have method listen in class Recognizer it will return the recorded audio
+	audio = r.listen(source)
+	then we have to decode the voice and make it to string for that we will use google API for that we have a method called recoginze_google() in Recognizer 
+	textOfOurSpeech = r.recoginze_google(audio)
+	that's all
+	final code is 
+	###     Code  for  voice  recognition   ###
+	import speech_recognition as sr
+	r = sr.Recognizer()
+	with sr.Microphone() as source:
+		print("start say")
+		audio = r.listen(source)
+	textOfOurSpeech = r.recoginze_google(audio)
+	print(textOfOurSpeech)
+
+	#######################################
+Session 9:
+	

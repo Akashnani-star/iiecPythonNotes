@@ -147,12 +147,13 @@ Session 11:
 	1. SELinux --> setenforce 0
 	2. we have to use sudo
 	we have to use sudo bcoz apache is webserver which will run our python codes
-	but internally it uses a normal user of that os named apache to run our code
+	but internally it uses a normal user of that os named www-data to run our code
 	a normal user doesn't have power to run some advanced commands which need permissions so we give all powers to the user apache 
+	we can know the user using by webserver by command ps -aux | grep apache2
 	to give root power to apache user we have to edit in /etc/sudoers file
 	and after the line root ALL=(ALL) ALL
 	we have to write 
-	apache ALL=(ALL) NOPASSWD:ALL
+	www-data ALL=(ALL) NOPASSWD:ALL
 	now we have to tell our apache that we have sudo power but we have to use sudo infront of our commands
 	example : sudo docker run -it --name akash centos:7
 	Final conclusion : 
@@ -267,4 +268,217 @@ Session 14:
 	type(p) is DataFrame
 
 Session 15:
+	--------------------------------------------------
+	===   Managing Code  Using Modules   ===
+	--------------------------------------------------
+
+	loading a file using import
+	syntax : import <file-name>
+	example : import student
+	no need of extension.
+
+	and all functions/classes belong to that file called student will store in one namespace.
+	for 
+	import student
+	the namespace created is student
+	for
+	import student as st
+	the namespace created is st
+	all functions in that student.py can be accessible by 
+	syntax : <namespace-name>.<function-name>
+	example : student.firstStudentFunc()
+
+	But in case we don't want whole module to import, if you want only one function in that module we can use the keyword "from"
+	syntax : from <module-name> import <what-you-want-to-import>
+	if we use above syntax function will direct include into present namespace.
+	example :
+	from student import firstFunction
+	firstFunction()
+
+	whenever we start running python it will create one namespace called __main__
+	from student import *
+	will import all the things and put into present namespace
+	will not create new namespace
+
+Session 16:
+	-----------------------------
+	=== Multi Threading ===
+	-----------------------------
+	Every process has unique PID
+	every PID is Directory
+	"ps -aux" will show all processes running in Linux
+	"ps -aux | grep firefox" will show the details about firefox process like PID, Processname, etc..
+	when process stops that PID folder will be deleted
+	
+	process will send only one statement is sent to cpu next statements have to wait until that statement is finished.
+	CPU treat that one statement as one Thread.
+	how can we see how many threads are using by a process?
+		In status file present in /proc/<PID>/  we can see no.of Threads used by that process.
+	
+	we have threading module in python which is used for multi-threading
+	to create a thread we can use Thread() class constructor and pass argument to variable target 
+	we have to give the reference of a function as argument to target
+	after that we have to start the thread by start method of Thread object
+
+	syntax:
+	------------------------------------------------------------
+	import threading
+	def func():
+		....body here......
+	threadName = threading.Thread(thread=func)
+	threadName.start()
+
+	-------------------------------------------------------------
+
+Session 17:
+	---------------------------------------
+	===   Exceptional Handling   ===
+	---------------------------------------
+	we can try block to put risky code.
+
+	we can use except block to handle error or manage the error
+
+	ValueError which will be raised while giving wrong values.
+	SyntaxError which will be raised while any Syntax is wrong.
+	
+
+	we can use finally block to run whether the error come or not.
+
+Session 18:
+	---------------------------
+	=== File Handling ===
+	---------------------------
+
+	Filename is pointer pointing to first character
+	Every os maintain a table of fields/columns of filename and location where first character starts   -----> this table is known as INode Table
+	
+	End Of Line   ---->  new line
+	EOL for Linux is \n
+	EOL for Linux is \r\n
+
+	File is a sequence of characters.
+	
+	At the end we have special character called EOF
+	
+	open("<file-name>") is used to read the file  ====   open("<file-name>","r")
+	
+	>>> f = open("iiec.txt")
+	>>> # this tell() method will be used to which character are you present trying to read
+	>>> f.tell()
+	0
+	>>> # f.read() method will read all characters one by one automatically and stop when EOF
+	>>> # data present in file is  ---->  'The data\nWritten some Data'
+	>>> f.read()
+	'The data\nWritten some Data'
+	>>> # if we use f.read() again we already reached to EOF
+	>>> # then there is no character to read so it will return normal string
+	>>> f.read()
+	''
+	>>> f.tell()
+	26
+	>>> # f.close() is used to close the file
+	>>> f.close()
+	>>> # if we again use f.read() method on which file is closed we will get ValueError
+	>>> f.read()
+	Traceback (most recent call last):
+	  File "<stdin>", line 1, in <module>
+	ValueError: I/O operation on closed file.
+	>>> # while we a file in write and if it is already present it will delete and create new file with no content
+	>>> # if file not exists it will create new file
+	>>> f = open("iiec.txt","w")
+	>>> f.write("asakdfadf\nasdf;d\nadsf")
+	21
+	>>> f.write("\nakash")
+	6
+	>>> f.write("\nHey")
+	4
+	>>> # if we close file then only we can view the written data in file
+	>>> f.close()
+	>>> # now all data we write is saved into file
+	>>> # bydefault read function nature is it will read all characters until it see EOF
+	>>> # but we can ask to read only no.of characters from the current position
+	>>> f = read("iiec.txt")
+	>>> # data present in file is  ---->  'The data\nWritten some Data'
+	>>> f.read(4)
+	'The '
+	>>> # now we can use f.seek(0,0) to got to first character
+	>>> f.seek(0,0)
+	0
+	>>> f.tell()
+	0
+	>>> f.seek(5,0)
+	5
+	>>> f.tell()
+	5
+	>>> # f.seek(5,0) 5 means how many characters we wanna move
+	>>> # 0 means from the beginning of the file we want to count that 5 characters
+	>>> # we can use 0,1,2 as second argument 0 means from first character
+	>>> # 1 means from the current character how many characters you wanna move
+	>>> # 2 means from the EOF character how many characters you wanna move
+	>>> f.close()
+	>>> # "r+" mode means read and write
+	>>> # if there is no file we will get error 
+	>>> # if the file is present it will be open and we can write at any character by seeking
+	>>> # data present in file is  ---->  'The data\nWritten some Data'
+	>>> f = open("iiec.txt","r+")
+	>>> f.tell()
+	0
+	>>> f.read(9)
+	'The data\n'
+	>>> f.tell()
+	9
+	>>> # we are at 9 th character pointing to, but it will write at last only 
+	>>> f.write("\nHey Iam akash I added new Line via r+\n")
+	38
+	>>> f.seek(0,0)
+	0
+	>>> f.read()
+	'The data\nWritten some Data\nHey Iam akash I added new Line via r+\n'
+	>>> # but if it pointing to first character it will start writing character by ovverriding the present characters , for example
+	>>> f.close()
+	>>> # the data in file is
+	>>> # 'The data\nWritten some Data\nHey Iam akash I added new Line via r+\n'
+	>>> f = open("iiec.txt","r+")
+	>>> f.tell()
+	0
+	>>> f.write("Akashnan")
+	8
+	>>> f.seek(0,0)
+	0
+	>>> f.read()
+	'Akashnan\nWritten some Data\nHey Iam akash I added new Line via r+\n'
+	>>> # 'w+' mode is used to write and read mode
+	>>> # if file is not present it will create new file
+	>>> # if file is present it will truncate and create new file
+	>>> # data present in iiec.txt "First\nSecond\nThird\n"
+	>>> # but if it pointing to first character it will start writing character by ovverriding the present characters , for example
+	>>> f = open("iiec.txt","w+")
+	>>> f.read()
+	''
+	>>> f.write("First\nSecond\nThird\n")
+	>>> f.seek(0)
+	0
+	>>> # replacing "First\n" by "first\n"
+	>>> f.write("first\n")
+	6
+	>>> f.seek(0)
+	0
+	>>> f.read()
+	"first\nSecond\nThird\n"
+	>>> f.seek(0)
+	0
+	>>> f.read(13)
+	"first\nSecond\n"
+	 >>> # we are at 13th character pointing to, but it will write at last only 
+	>>> f.write("third\n")
+	6
+	>>> f.seek(0)
+	>>> f.read()
+	"first\nSecond\nThird\nthird\n"
+	>>> # whereever you are in a+ mode it will add new text at last only
+	>>> # if file is present it will open in append mode
+	>>> # if file is not present it will create a new file
+	>>> exit()
+
+Session 19:
 	

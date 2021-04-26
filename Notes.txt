@@ -86,6 +86,7 @@ Session 8:
 	for adding microphone usage to our program we have to first initialize the class called Recognizer which is present in speech_recognition
 	r = sr.Recognizer()
 	now we have to open mike for that we have Microphone function speech_recognition module sr.Microphone() we use that source
+	This Microphone() will use PyAudio module internally.
 	with sr.Microphone() as source:
 	now we have to listen to the voice coming from the source for that we have method listen in class Recognizer it will return the recorded audio
 	audio = r.listen(source)
@@ -104,4 +105,166 @@ Session 8:
 
 	#######################################
 Session 9:
+	in python we have a function called getpass() in module getpass to take inputs of passwords without echoback
+	import getpass as gp
+	password = gp.getpass()
+	some commands don't show output but we can know whether they are succesful or not
+	if our command is succesful 0 is get stored in global variable called ?
+	echo $?
+	if value is not 0 then previous command is failed.
+	why tuple is created?
+
+Session 10:
+	Integrating python and docker using cgi
+	we can put variables inside string like  ---> "hi this {} x variable value".format(x)
+	x = 10,y=20
+	"this is {1} and {1} data".format(x,y) --->  "this is 20 and 20 data"
+	"this is {0} and {0} data".format(x) --->  "this is 10 and 10 data"
+	"this is {1} and {0} data".format(x,y) --->  "this is 20 and 10 data"
+	actually we use the following command to run docker container 
+	syntax : docker run -it --name [container-name] [image/or-name]:[version]
+	example : docker run -it --name akash centos:7
+	but above command will lead to interactive with another os but python can't do that
+	so we use -d to create and detach docker container detach means not making interact with that container the container will run in background
+	syntax : so the command is docker run -dit --name [container-name] [image/or-name]:[version]
+	example : docker run -dit --name akash centos:7
+	
+	so final code is 
+	import cgi
+	import subprocess as sp
+	formValues = cgi.FieldStorage()
+	dockerName = formValues.getvalue("dockerName")
+	op = sp.getstatusoutput("docker run -dit --name {0} centos:7".format(dockerName))
+	if(op[0] == 0):
+		print("Created a container named {0}",dockerName);
+	else:
+		print("some error occured {0}",op[1]);
+	But the following code don't work we have to use sudo while running the docker command
+	that will be explained in next session
+
+Session 11:
+	We have to problems while integrating python with Docker
+	1. SELinux --> setenforce 0
+	2. we have to use sudo
+	we have to use sudo bcoz apache is webserver which will run our python codes
+	but internally it uses a normal user of that os named apache to run our code
+	a normal user doesn't have power to run some advanced commands which need permissions so we give all powers to the user apache 
+	to give root power to apache user we have to edit in /etc/sudoers file
+	and after the line root ALL=(ALL) ALL
+	we have to write 
+	apache ALL=(ALL) NOPASSWD:ALL
+	now we have to tell our apache that we have sudo power but we have to use sudo infront of our commands
+	example : sudo docker run -it --name akash centos:7
+	Final conclusion : 
+		step 1 : we have to give all permissions to the apache user in /etc/sudoers file 
+		            apache ALL=(ALL) NOPASSWD:ALL
+		step 2: we have to use sudo in our commands
+	useradd [username]  ----> will create a user
+	id [username]   ------>  checks whether the user exist or not
+	We can use select tag for droppable selection
+	<select name="image">
+		<option>ubuntu:14.04</option>
+		<option>centos:7</option>
+		<option>centos:latest</option>
+	</select>
+	selected item will store in variable image.
+
+Session 12:
+	How for loop stops automatically?
+	
+	1.
+		x = [1,2,3,4,5]
+		y = []
+		for i in x:
+			y.append(i*i)
+		
+		List Comprehension:
+		[destination_list] = [business logic for i in some list]
+		y = [i*i for i in x]
+	
+	2.
+		x = [1,2,3,4,5]
+		y = []
+		for i in x:
+			if i>0:
+				y.append(i*i)
+		
+		List Comprehension:
+		[destination_list] = [business logic for i in some list if_condition on i]
+		y = [i*i for i in x if i>0]
+
+	3..
+		x = [1,2,3,4,5]
+		y = []
+		for i in x:
+			if i>0:
+				j = i*i
+				y.append(j)
+			else:
+				j = "Not supported variable"
+				y.append(j)
+		
+		List Comprehension:
+		[destination_list] = [business_logic if_condition on i else what is value of business logic for i in some list]
+		y = [i*i if i>0 else "Not supported variable" for i in x]
+
+	No.of Arguments:		
+	-------------------
+	def func(*i):
+		print(i)
+
+	func(1,3,2,45,23,6,23,56)
+	func(1,2,4,6)
+	
+	output:
+	(1,3,2,45,23,6,23,56)
+	(1,2,4,6)
+	
+	i will be tuple all arguments passed will store in a single tuple
+		
+Session 13:
+	DataSet means whole table in data Collection
+	on the data we can do 3 things
+	1. query   --->   querying about a feature of one record/user ---> performed row wise
+	2. data analysis  --->    perfoming some action like counting no.of tuples   ----> guy who tdo data analysis is known as  data analyst.
+	can be done on the data which is already collected.  ---->  performed column wise.
+	3. data analystics   --->   any data which is not present but we try to predict the data
+
+	
+Session 14:
+	import numpy as np
+	a = np.array([1,2,3])
+	shape is filed of that array named a
+	a.shape  ---->   (3,)    ----->   It means it has only column with 3 rows
+
+ 	a = numpy.array([["akash",1],["nani",2],["dhanvi",3],["veera",4]]) 
+	a.shape ---->  (4,2)   ------>  4rows   2columns
+
+	arra3 = numpy.array([["akash",1,"a@gmial.com"],["nani",2,"b@gmial.com"],["dhanvi",3,"c@gmial.com"],["veera",4,"d@gmial.com"]])
+	a.shape ---->  (4,3)   ------>  4rows   3columns
+	
+	1dimension array is also known as "Vector".
+	
+	arra3[:,1]  --->   ['1','2','3','4']  --->  to conver them into integers  ----> intArray = arra3[:,1].astype(int)
+
+	s.dtype will return the datatype of the array
+
+	if we have more columns in data it will become so hard while counting the column indices and performing operations. so we move to pandas
+
+	But we can give field name in numpy also.
+	the data we tell about column name and column data type is known as metadata.
+	
+	import pandas as ps
+	p = ps.read_csv("[csv-file-name]")
+	print(p['column-name'])
+	if we want to retrieve more columns we have to create list of that columns
+	print(p[['column-name1','column-name2']])
+	
+	for row wise operationas we have use 
+	p.iloc[<row-number>]
+	p.iloc[1]
+
+	type(p) is DataFrame
+
+Session 15:
 	
